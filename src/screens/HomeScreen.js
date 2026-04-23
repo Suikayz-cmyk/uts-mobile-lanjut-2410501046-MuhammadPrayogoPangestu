@@ -3,7 +3,8 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  FlatList,
 } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getCategories } from '../services/mealApi';
@@ -11,23 +12,35 @@ import { getCategories } from '../services/mealApi';
 export default function HomeScreen({ navigation }) {
 
  const [categories, setCategories] = useState([]);
+
  const [loading, setLoading] = useState(true);
  const [error, setError] = useState('');
+ const [refreshing, setRefreshing] = useState(false);
 
- useEffect(() => {
-    async function loadData() {
-      try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (err) {
+ 
+async function loadData() {
+  try {
+    setError('');
+
+    const data = await getCategories();
+    setCategories(data);
+        
+  } catch (err) {
         setError('Gagal memuat data');
-      } finally {
+  } finally {
         setLoading(false);
-      }
-    }
+  }
+}
 
+  useEffect(() => {
     loadData();
   }, []);
+
+  async function handleRefresh() {
+  setRefreshing(true);
+  await loadData();
+  setRefreshing(false);
+}
 
   if (loading) {
     return (
@@ -59,9 +72,25 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
-       {categories.map((item) => (
-        <Text key={item.idCategory}>{item.strCategory}</Text>
-      ))}
+
+       <FlatList
+          data={categories}
+          keyExtractor={(item) => item.idCategory}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() =>
+                navigation.navigate('Browse', {
+                  category: item.strCategory,
+                })
+              }
+            >
+              <Text>{item.strCategory}</Text>
+            </TouchableOpacity>
+          )}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+        />
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse')}>
         <Text>Browse</Text>
@@ -76,12 +105,17 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 16,
   },
   button: {
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
     padding: 10,
   },
+  item: {
+  padding: 12,
+  fontSize: 16,
+  borderBottomWidth: 1,
+  borderColor: '#ddd',
+}
 });
