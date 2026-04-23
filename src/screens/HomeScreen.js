@@ -1,19 +1,60 @@
-import { View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator
+} from 'react-native';
 import { useEffect, useState } from 'react';
 import { getCategories } from '../services/mealApi';
 
 export default function HomeScreen({ navigation }) {
 
  const [categories, setCategories] = useState([]);
+ const [loading, setLoading] = useState(true);
+ const [error, setError] = useState('');
 
  useEffect(() => {
     async function loadData() {
-      const data = await getCategories();
-      setCategories(data);
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (err) {
+        setError('Gagal memuat data');
+      } finally {
+        setLoading(false);
+      }
     }
 
     loadData();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+        <Text>Loading categories...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text>{error}</Text>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setLoading(true);
+            loadData();
+          }}
+        >
+          <Text>Coba Lagi</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
