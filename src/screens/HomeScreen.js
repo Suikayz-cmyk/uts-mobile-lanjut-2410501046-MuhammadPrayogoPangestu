@@ -1,13 +1,15 @@
 import { View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCategories } from '../services/mealApi';
 
 export default function HomeScreen({ navigation }) {
 
+ const [categories, setCategories] = useState([]);
+
  useEffect(() => {
     async function loadData() {
       const data = await getCategories();
-      console.log(data);
+      setCategories(data);
     }
 
     loadData();
@@ -16,6 +18,9 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
+       {categories.map((item) => (
+        <Text key={item.idCategory}>{item.strCategory}</Text>
+      ))}
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse')}>
         <Text>Browse</Text>
