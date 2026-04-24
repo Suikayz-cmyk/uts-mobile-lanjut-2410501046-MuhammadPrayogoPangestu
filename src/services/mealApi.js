@@ -23,3 +23,17 @@ export async function getMealsByCategory(category) {
   const data = await response.json();
   return data.meals;
 }
+
+export async function getMealDetail(idMeal) {
+  const response = await fetch(
+    `${BASE_URL}/lookup.php?i=${idMeal}`
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch detail');
+  }
+
+  const data = await response.json();
+
+  return data.meals[0];
+}

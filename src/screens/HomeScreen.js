@@ -17,7 +17,6 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
-
   const loadData = async () => {
     try {
       setError('');

@@ -1,10 +1,77 @@
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
+  ScrollView,
+} from 'react-native';
 
-export default function DetailScreen() {
+import { useEffect, useState } from 'react';
+import { getMealDetail } from '../services/mealApi';
+
+export default function DetailScreen({ route, navigation }) {
+
+  const [meal, setMeal] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const { idMeal } = route.params;
+
+  const loadDetail = async () => {
+    try {
+      setError('');
+
+      const data = await getMealDetail(idMeal);
+      setMeal(data);
+
+    } catch (err) {
+      console.log(err);
+      setError('Gagal memuat detail');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadDetail();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text>{error}</Text>
+      </View>
+    );
+  }  
+    
   return (
-    <View style={styles.container}>
+  <ScrollView contentContainerStyle={styles.content}>
       <Text>Detail Screen</Text>
-    </View>
+        <Image
+          source={{ uri: meal.strMealThumb }}
+          style={styles.image}
+        />
+
+        <Text style={styles.title}>{meal.strMeal}</Text>
+
+        <Text>Category: {meal.strCategory}</Text>
+        <Text>Area: {meal.strArea}</Text>
+
+        <Text style={styles.section}>Instructions:</Text>
+        <Text>{meal.strInstructions}</Text>
+      </ScrollView>
   );
 }
 const styles = StyleSheet.create({
@@ -13,4 +80,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+content: {
+  padding: 16,
+},
+
+image: {
+  width: '100%',
+  height: 250,
+  borderRadius: 12,
+},
+
+title: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  marginVertical: 12,
+},
+
+section: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginTop: 16,
+},
 });
