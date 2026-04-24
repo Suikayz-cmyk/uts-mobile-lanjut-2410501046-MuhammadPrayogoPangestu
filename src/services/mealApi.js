@@ -10,3 +10,16 @@ export async function getCategories() {
   const data = await response.json();
   return data.categories;
 }
+
+export async function getMealsByCategory(category) {
+  const response = await fetch(
+    `${BASE_URL}/filter.php?c=${category}`
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch meals');
+  }
+
+  const data = await response.json();
+  return data.meals;
+}

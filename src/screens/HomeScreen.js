@@ -11,36 +11,36 @@ import { getCategories } from '../services/mealApi';
 
 export default function HomeScreen({ navigation }) {
 
- const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
- const [loading, setLoading] = useState(true);
- const [error, setError] = useState('');
- const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
- 
-async function loadData() {
-  try {
-    setError('');
 
-    const data = await getCategories();
-    setCategories(data);
-        
-  } catch (err) {
-        setError('Gagal memuat data');
-  } finally {
-        setLoading(false);
-  }
-}
+  const loadData = async () => {
+    try {
+      setError('');
+
+      const data = await getCategories();
+      setCategories(data);
+
+    } catch (err) {
+      setError('Gagal memuat data');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     loadData();
   }, []);
 
-  async function handleRefresh() {
-  setRefreshing(true);
-  await loadData();
-  setRefreshing(false);
-}
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await loadData();
+    setRefreshing(false);
+  };
 
   if (loading) {
     return (
@@ -73,32 +73,24 @@ async function loadData() {
     <View style={styles.container}>
       <Text>Home Screen</Text>
 
-       <FlatList
-          data={categories}
-          keyExtractor={(item) => item.idCategory}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() =>
-                navigation.navigate('Browse', {
-                  category: item.strCategory,
-                })
-              }
-            >
-              <Text>{item.strCategory}</Text>
-            </TouchableOpacity>
-          )}
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-        />
-
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse')}>
-        <Text>Browse</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Detail')}>
-        <Text>Detail</Text>
-      </TouchableOpacity>
+      <FlatList
+        data={categories}
+        keyExtractor={(item) => item.idCategory}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() =>
+              navigation.navigate('Browse', {
+                category: item.strCategory,
+              })
+            }
+          >
+            <Text>{item.strCategory}</Text>
+          </TouchableOpacity>
+        )}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+      />
     </View>
   );
 }
@@ -113,9 +105,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   item: {
-  padding: 12,
-  fontSize: 16,
-  borderBottomWidth: 1,
-  borderColor: '#ddd',
-}
+    padding: 12,
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  }
 });
