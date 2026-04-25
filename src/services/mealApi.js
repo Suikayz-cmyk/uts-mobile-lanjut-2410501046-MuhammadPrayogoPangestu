@@ -37,3 +37,17 @@ export async function getMealDetail(idMeal) {
 
   return data.meals[0];
 }
+
+export async function searchMeals(keyword) {
+  const response = await fetch(
+    `${BASE_URL}/search.php?s=${keyword}`
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to search meals');
+  }
+
+  const data = await response.json();
+
+  return data.meals || [];
+}
