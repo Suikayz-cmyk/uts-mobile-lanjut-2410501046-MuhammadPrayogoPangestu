@@ -27,8 +27,8 @@ const handleSearch = async () => {
     return;
   }
 
-  if (cleanKeyword.length < 2) {
-    setError('Minimal 2 karakter');
+  if (cleanKeyword.length < 3) {
+    setError('Minimal 3 karakter');
     return;
   }
 

@@ -21,6 +21,13 @@ export default function DetailScreen({ route, navigation }) {
   const [error, setError] = useState('');
 
   const { idMeal } = route.params;
+  const ingredients = meal
+  ? Array.from({ length: 20 }, (_, index) =>
+      meal[`strIngredient${index + 1}`]
+    ).filter(
+      (item) => item && item.trim() !== ''
+    )
+  : [];
 
   const loadDetail = async () => {
     try {
@@ -111,6 +118,13 @@ export default function DetailScreen({ route, navigation }) {
 
         <Text>Category: {meal.strCategory}</Text>
         <Text>Area: {meal.strArea}</Text>
+        
+        <Text style={styles.section}>Ingredients:</Text>
+        {ingredients.map((item, index) => (
+          <Text key={index} style={styles.ingredientItem}>
+           {item}
+          </Text>
+        ))}
 
         <Text style={styles.section}>Instructions:</Text>
         <Text>{meal.strInstructions}</Text>
@@ -154,6 +168,11 @@ button: {
 },
 removeButton: {
   backgroundColor: '#ff6b6b'
+},
+
+ingredientItem: {
+  fontSize: 13,
+  marginTop: 3,
 }
 
 });
