@@ -11,6 +11,7 @@ import {
 
 import { useEffect, useState } from 'react';
 import { getMealDetail } from '../services/mealApi';
+import useFavoriteStore from '../store/favoriteStore';
 
 export default function DetailScreen({ route, navigation }) {
 
@@ -36,6 +37,34 @@ export default function DetailScreen({ route, navigation }) {
     }
   };
 
+  const addFavorite = useFavoriteStore(
+    (state) => state.addFavorite
+  );
+
+  const removeFavorite = useFavoriteStore(
+    (state) => state.removeFavorite
+  );
+
+  const favorites = useFavoriteStore(
+    (state) => state.favorites
+  );
+
+  const isFavorite = useFavoriteStore(
+    (state) => state.isFavorite
+  );
+
+  const favoriteStatus = favorites.some(
+    (item) => item.idMeal === meal?.idMeal
+  );
+
+  const handleFavoriteToggle = () => {
+    if (favoriteStatus) {
+      removeFavorite(meal.idMeal);
+    } else {
+      addFavorite(meal);
+    }
+  };
+
   useEffect(() => {
     loadDetail();
   }, []);
@@ -55,7 +84,7 @@ export default function DetailScreen({ route, navigation }) {
       </View>
     );
   }  
-    
+
   return (
   <ScrollView contentContainerStyle={styles.content}>
       <Text>Detail Screen</Text>
@@ -65,6 +94,20 @@ export default function DetailScreen({ route, navigation }) {
         />
 
         <Text style={styles.title}>{meal.strMeal}</Text>
+
+        <TouchableOpacity
+          style={[
+            styles.button,
+            isFavorite(meal.idMeal) && styles.removeButton
+          ]}
+          onPress={handleFavoriteToggle}
+        >
+          <Text>
+            {favoriteStatus
+              ? 'Hapus Favorit'
+              : 'Tambah Favorit'}
+          </Text>
+        </TouchableOpacity>
 
         <Text>Category: {meal.strCategory}</Text>
         <Text>Area: {meal.strArea}</Text>
@@ -101,4 +144,16 @@ section: {
   fontWeight: 'bold',
   marginTop: 16,
 },
+
+button: {
+  marginTop: 20,
+  padding: 12,
+  backgroundColor: '#4fff64',
+  borderRadius: 8,
+  alignItems: 'center',
+},
+removeButton: {
+  backgroundColor: '#ff6b6b'
+}
+
 });
