@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 import { searchMeals } from '../services/mealApi';
 
-export default function SearchScreen() {
+export default function SearchScreen({ navigation }) {
 
 const [keyword, setKeyword] = useState('');
 const [results, setResults] = useState([]);
@@ -74,14 +74,27 @@ const handleSearch = async () => {
         data={results}
         keyExtractor={(item) => item.idMeal}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() =>
+            navigation.navigate('Home', {
+              screen: 'Detail',
+              params: {
+                idMeal: item.idMeal
+              }
+            })
+          }
+          >
             <Image
               source={{ uri: item.strMealThumb }}
               style={styles.image}
             />
-            <Text>{item.strMeal}</Text>
-          </View>
-        )}
+
+            <Text style={styles.mealTitle}>
+              {item.strMeal}
+            </Text>
+          </TouchableOpacity>
+              )}
       />
     </View>
   );
@@ -120,5 +133,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 180,
     borderRadius: 8,
+  },
+  mealTitle: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
