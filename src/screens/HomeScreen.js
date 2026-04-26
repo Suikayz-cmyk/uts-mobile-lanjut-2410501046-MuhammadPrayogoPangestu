@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
+  Image,
 } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getCategories } from '../services/mealApi';
@@ -62,7 +63,9 @@ export default function HomeScreen({ navigation }) {
             loadData();
           }}
         >
-          <Text>Coba Lagi</Text>
+          <Text style={{ color:'#fff', fontWeight:'bold' }}>
+            Coba Lagi
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -70,23 +73,36 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text style={styles.title}>
+        Kategori Makanan
+      </Text>
 
       <FlatList
         data={categories}
         keyExtractor={(item) => item.idCategory}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.item}
+            style={styles.card}
             onPress={() =>
               navigation.navigate('Browse', {
-                category: item.strCategory,
+                category: item.strCategory
               })
             }
           >
-            <Text>{item.strCategory}</Text>
+            <Image
+              source={{ uri: item.strCategoryThumb }}
+              style={styles.image}
+            />
+
+            <Text style={styles.cardTitle}>
+              {item.strCategory}
+            </Text>
           </TouchableOpacity>
-        )}
+          )}
         refreshing={refreshing}
         onRefresh={handleRefresh}
       />
@@ -96,17 +112,57 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    backgroundColor: '#fff',
   },
+
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 12,
+    color: '#222',
+  },
+
   button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
+    marginTop: 12,
+    backgroundColor: '#47bbe9',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
   },
-  item: {
+
+  list: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+  },
+
+  row: {
+    justifyContent: 'space-between',
+  },
+
+  card: {
+    width: '48%',
+    backgroundColor: '#fff',
+    borderRadius: 14,
     padding: 12,
+    marginBottom: 12,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#eee',
+    elevation: 2,
+  },
+
+  image: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+  },
+
+  cardTitle: {
+    marginTop: 8,
     fontSize: 16,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-  }
+    fontWeight: 'bold',
+    color: '#222',
+  },
 });
