@@ -27,90 +27,115 @@ export default function FavoritesScreen({ navigation }) {
     );
   }
 
-  
-
   return (
     <FlatList
       data={favorites}
       keyExtractor={(item) => item.idMeal}
       contentContainerStyle={styles.container}
       renderItem={({ item }) => (
-        <TouchableOpacity style={styles.card}
-         onPress={() =>
-              navigation.navigate('Home', {
-                screen: 'Detail',
-                params: {
-                  idMeal: item.idMeal
-                }
-              })
-            }>
+  <TouchableOpacity
+    style={styles.card}
+    onPress={() =>
+      navigation.navigate('Home', {
+        screen: 'Detail',
+        params: {
+          idMeal: item.idMeal
+        }
+      })
+    }
+  >
+    <Image
+      source={{ uri: item.strMealThumb }}
+      style={styles.image}
+    />
 
-          <Image
-            source={{ uri: item.strMealThumb }}
-            style={styles.image}
-          />
+    <View style={styles.info}>
+      <Text
+        style={styles.title}
+        numberOfLines={2}
+      >
+        {item.strMeal}
+      </Text>
 
-          <Text style={styles.title}>
-            {item.strMeal}
-          </Text>
+      <Text style={styles.category}>
+        {item.strCategory}
+      </Text>
 
-          <Text>{item.strCategory}</Text>
-
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={() => removeFavorite(item.idMeal)}
-          >
-            <Text style={styles.deleteText}>
-              Hapus Favorit
-            </Text>
-          </TouchableOpacity>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() =>
+          removeFavorite(item.idMeal)
+        }
+      >
+        <Text style={styles.deleteText}>
+          Hapus
+        </Text>
+      </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
+)}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+ container: {
     padding: 16,
-  },
-
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
   },
 
   card: {
-    marginBottom: 16,
-    padding: 12,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 10,
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: '#eee',
+    elevation: 2,
   },
 
   image: {
-    width: '100%',
-    height: 180,
-    borderRadius: 8,
+    width: 90,
+    height: 90,
+    borderRadius: 10,
+  },
+
+  info: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'center',
   },
 
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginTop: 8,
+    color: '#222',
+  },
+
+  category: {
+    marginTop: 4,
+    color: '#666',
   },
 
   deleteButton: {
     marginTop: 10,
-    padding: 10,
-    backgroundColor: '#ff6b6b',
+    alignSelf: 'flex-start',
+    backgroundColor: '#f32a2a',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     borderRadius: 8,
-    alignItems: 'center',
   },
 
   deleteText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 13,
+  },
+
+  center: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
