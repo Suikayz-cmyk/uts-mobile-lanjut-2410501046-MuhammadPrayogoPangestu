@@ -81,11 +81,8 @@ const handleSearch = async () => {
         <TouchableOpacity
           style={styles.card}
           onPress={() =>
-            navigation.navigate('Home', {
-              screen: 'Detail',
-              params: {
-                idMeal: item.idMeal
-              }
+            navigation.navigate('Detail', {
+              idMeal: item.idMeal
             })
           }
         >
