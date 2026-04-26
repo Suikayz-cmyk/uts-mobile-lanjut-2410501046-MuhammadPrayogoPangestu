@@ -4,7 +4,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Image,
 } from 'react-native';
 import { useEffect, useState } from 'react';
 
@@ -59,23 +60,40 @@ export default function BrowseScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Browse Screen</Text>
+    <Text style={styles.pageTitle}>
+      {category} ({meals.length})
+    </Text>
 
       <FlatList
         data={meals}
         keyExtractor={(item) => item.idMeal}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.item}
+            style={styles.card}
             onPress={() =>
               navigation.navigate('Detail', {
-                idMeal: item.idMeal,
+                idMeal: item.idMeal
               })
             }
           >
-            <Text>{item.strMeal}</Text>
+            <Image
+              source={{ uri: item.strMealThumb }}
+              style={styles.image}
+            />
+
+            <View style={styles.info}>
+              <Text style={styles.title}>
+                {item.strMeal}
+              </Text>
+
+              <Text style={styles.subtitle}>
+                Tap for detail
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
         refreshing={refreshing}
         onRefresh={handleRefresh}
       />
@@ -86,12 +104,54 @@ export default function BrowseScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+  },
+
+  content: {
     padding: 16,
   },
-  item: {
-    padding: 12,
+
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 12,
+    color: '#222',
+  },
+
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 10,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#eee',
+    elevation: 2,
+    alignItems: 'center',
+  },
+
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+  },
+
+  info: {
+    flex: 1,
+    marginLeft: 12,
+  },
+
+  title: {
     fontSize: 16,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
+    fontWeight: 'bold',
+    color: '#222',
+  },
+
+  subtitle: {
+    marginTop: 6,
+    color: '#666',
+    fontSize: 13,
   },
 });
