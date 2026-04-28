@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
     paddingBottom: 40,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFDF7',
   },
 
   image: {
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
-    backgroundColor: '#2bb62d',
+    backgroundColor: '#9ADB47',
   },
 
   buttonText: {
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
 
   removeButton: {
-    backgroundColor: '#f32a2a'
+    backgroundColor: '#E74C3C',
   },
 
   ingredientItem: {

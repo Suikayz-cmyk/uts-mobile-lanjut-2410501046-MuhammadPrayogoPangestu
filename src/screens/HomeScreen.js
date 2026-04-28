@@ -44,18 +44,17 @@ export default function HomeScreen({ navigation }) {
 
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={styles.centerContainer}>
         <ActivityIndicator size="large" />
-        <Text>Loading categories...</Text>
+        <Text style={styles.centerText}> Loading categories... </Text>
       </View>
     );
   }
 
   if (error) {
     return (
-      <View style={styles.container}>
-        <Text>{error}</Text>
-
+      <View style={styles.centerContainer}>
+        <Text style={styles.centerText}> Gagal Memuat Data  </Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -63,7 +62,7 @@ export default function HomeScreen({ navigation }) {
             loadData();
           }}
         >
-          <Text style={{ color:'#fff', fontWeight:'bold' }}>
+        <Text style={{ color:'#fff', fontWeight:'bold', textAlign:'center' }}>
             Coba Lagi
           </Text>
         </TouchableOpacity>
@@ -112,7 +111,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFDF7',
   },
 
   title: {
@@ -164,5 +163,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#222',
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFDF7',
+  },
+
+  centerText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'center',
   },
 });

@@ -44,16 +44,20 @@ export default function BrowseScreen({ route, navigation }) {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" />
+      <View style={styles.centerContainer}>
+        <ActivityIndicator
+          size="large"
+          color="#468432"
+        />
+        <Text style={styles.centerText}> Loading recipes...</Text>
       </View>
     );
   }
 
   if (error) {
     return (
-      <View style={styles.container}>
-        <Text>{error}</Text>
+      <View style={styles.centerContainer}>
+        <Text style={styles.centerText}> Gagal memuat data </Text>
       </View>
     );
   }
@@ -104,7 +108,7 @@ export default function BrowseScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFDF7',
   },
 
   content: {
@@ -153,5 +157,33 @@ const styles = StyleSheet.create({
     marginTop: 6,
     color: '#666',
     fontSize: 13,
+  },
+
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFDF7',
+    padding: 20,
+  },
+
+  centerText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'center',
+  },
+
+  retryButton: {
+    marginTop: 14,
+    backgroundColor: '#FFA02E',
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+  },
+
+  retryText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });

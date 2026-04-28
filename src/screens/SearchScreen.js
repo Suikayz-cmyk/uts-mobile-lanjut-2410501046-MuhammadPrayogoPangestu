@@ -28,7 +28,7 @@ const handleSearch = async () => {
   }
 
   if (cleanKeyword.length < 3) {
-    setError('Minimal 3 karakter');
+    setError('Minimal masukkan 3 karakter');
     return;
   }
 
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
  container: {
     flex: 1,
     padding: 16,
-    backgroundColor:'#fff',
+    backgroundColor: '#FFFDF7',
   },
 
   input: {
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
 
   button: {
     padding: 12,
-    backgroundColor: '#47bbe9',
+    backgroundColor: '#FFA02E',
     alignItems: 'center',
     borderRadius: 8,
     marginTop: 8,

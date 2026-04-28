@@ -28,11 +28,16 @@ export default function FavoritesScreen({ navigation }) {
   }
 
   return (
+    <View style={styles.container}>
+    <Text style={styles.pageTitle}>
+      Favorite Recipes ({favorites.length})
+    </Text>
     <FlatList
       data={favorites}
       keyExtractor={(item) => item.idMeal}
       contentContainerStyle={styles.container}
       renderItem={({ item }) => (
+<<<<<<< HEAD
   <TouchableOpacity
     style={styles.card}
     onPress={() =>
@@ -58,27 +63,63 @@ export default function FavoritesScreen({ navigation }) {
         {item.strCategory}
       </Text>
 
+=======
+>>>>>>> df7032d (style: polish UI with recolor screens and navigation)
       <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() =>
-          removeFavorite(item.idMeal)
-        }
-      >
-        <Text style={styles.deleteText}>
-          Hapus
-        </Text>
-      </TouchableOpacity>
+          style={styles.card}
+          onPress={() =>
+            navigation.navigate('Detail', {
+              idMeal: item.idMeal
+            })
+          }
+        >
+          <Image
+            source={{ uri: item.strMealThumb }}
+            style={styles.image}
+          />
+
+          <View style={styles.info}>
+            <Text
+              style={styles.title}
+              numberOfLines={2}
+            >
+              {item.strMeal}
+            </Text>
+
+            <Text style={styles.category}>
+              {item.strCategory}
+            </Text>
+
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() =>
+                removeFavorite(item.idMeal)
+              }
+            >
+              <Text style={styles.deleteText}>
+                Hapus
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      )}
+          />
     </View>
-  </TouchableOpacity>
-)}
-    />
   );
 }
 
 const styles = StyleSheet.create({
  container: {
-    padding: 16,
-    backgroundColor: '#fff',
+    flex: 1,
+    padding: 12,
+    backgroundColor: '#FFFDF7',
+  },
+
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#222',
+    marginBottom: 14,
   },
 
   card: {
@@ -118,7 +159,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     marginTop: 10,
     alignSelf: 'flex-start',
-    backgroundColor: '#f32a2a',
+    backgroundColor: '#E74C3C',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 8,

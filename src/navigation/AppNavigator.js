@@ -19,6 +19,18 @@ export default function AppNavigator() {
         <Stack.Screen
           name="Detail"
           component={DetailScreen}
+          options={{
+            title: 'Detail',
+            headerStyle: {
+              backgroundColor: '#468432',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerShadowVisible: true,
+            headerStatusBarHeight: 0,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
