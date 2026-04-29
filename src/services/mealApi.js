@@ -51,3 +51,13 @@ export async function searchMeals(keyword) {
 
   return data.meals || [];
 }
+
+export async function getRandomMeal() {
+  const response = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/random.php'
+  );
+
+  const json = await response.json();
+
+  return json.meals[0];
+}

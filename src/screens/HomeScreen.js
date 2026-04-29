@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getCategories } from '../services/mealApi';
+import { getCategories, getRandomMeal } from '../services/mealApi';
 
 export default function HomeScreen({ navigation }) {
 
@@ -17,6 +17,7 @@ export default function HomeScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [featuredMeal, setFeaturedMeal] = useState(null);
 
   const loadData = async () => {
     try {
@@ -24,6 +25,9 @@ export default function HomeScreen({ navigation }) {
 
       const data = await getCategories();
       setCategories(data);
+
+      const randomMeal = await getRandomMeal();
+      setFeaturedMeal(randomMeal);
 
     } catch (err) {
       setError('Gagal memuat data');
@@ -72,10 +76,6 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Kategori Makanan
-      </Text>
-
       <FlatList
         data={categories}
         keyExtractor={(item) => item.idCategory}
@@ -83,6 +83,44 @@ export default function HomeScreen({ navigation }) {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
+        
+        ListHeaderComponent={
+          <>
+            <Text style={styles.appTitle}>Resep Kita </Text>
+
+            <TouchableOpacity
+              style={styles.heroCard}
+              onPress={() =>
+                navigation.navigate('Detail', {
+                  idMeal: featuredMeal.idMeal
+                })
+              }
+            >
+              <Text style={styles.heroLabel}>
+                Today's Recommendation
+              </Text>
+
+              <Image
+                source={{
+                  uri: featuredMeal?.strMealThumb
+                }}
+                style={styles.heroImage}
+              />
+
+              <Text style={styles.heroTitle}>
+                {featuredMeal?.strMeal || 'Loading...'}
+              </Text>
+
+              <Text style={styles.heroSub}>
+                Tap for detail
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={styles.title}>
+              Kategori Makanan
+            </Text>
+          </>
+        }
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
@@ -176,5 +214,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     textAlign: 'center',
+  },
+
+  appTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#222',
+    marginBottom: 4,
+  },
+
+  heroCard: {
+    backgroundColor: '#468432',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+  },
+
+  heroImage: {
+    width: '100%',
+    height: 160,
+    borderRadius: 14,
+    marginBottom: 12,
+  },
+
+  heroLabel: {
+    color: '#ffffff',
+    fontSize: 13,
+    marginBottom: 6,
+  },
+
+  heroTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  heroSub: {
+    color: '#fff',
+    marginTop: 10,
+    fontSize: 14,
   },
 });
