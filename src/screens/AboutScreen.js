@@ -10,7 +10,7 @@ export default function AboutScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={require('../../assets/Foto.jpg')}
+        source={require('../../assets/avatar/profile.jpg')}
         style={styles.avatar}
       />
 

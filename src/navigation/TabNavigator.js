@@ -13,14 +13,14 @@ export default function TabNavigator() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarStyle: {
-          backgroundColor: '#FFFDF7',
+          backgroundColor: '#468432',
           borderTopWidth: 0,
           height: 60,
           paddingBottom: 6,
         },
 
         tabBarActiveTintColor: '#FFA02E',
-        tabBarInactiveTintColor: '#777',
+        tabBarInactiveTintColor: '#ffffff',
   
         headerStyle: {
           backgroundColor: '#468432',
