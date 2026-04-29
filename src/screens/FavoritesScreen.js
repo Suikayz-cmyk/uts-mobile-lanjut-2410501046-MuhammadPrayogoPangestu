@@ -37,34 +37,6 @@ export default function FavoritesScreen({ navigation }) {
       keyExtractor={(item) => item.idMeal}
       contentContainerStyle={styles.container}
       renderItem={({ item }) => (
-<<<<<<< HEAD
-  <TouchableOpacity
-    style={styles.card}
-    onPress={() =>
-      navigation.navigate('Detail', {
-        idMeal: item.idMeal
-      })
-    }
-  >
-    <Image
-      source={{ uri: item.strMealThumb }}
-      style={styles.image}
-    />
-
-    <View style={styles.info}>
-      <Text
-        style={styles.title}
-        numberOfLines={2}
-      >
-        {item.strMeal}
-      </Text>
-
-      <Text style={styles.category}>
-        {item.strCategory}
-      </Text>
-
-=======
->>>>>>> df7032d (style: polish UI with recolor screens and navigation)
       <TouchableOpacity
           style={styles.card}
           onPress={() =>

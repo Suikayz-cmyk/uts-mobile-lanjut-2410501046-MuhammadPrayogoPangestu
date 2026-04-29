@@ -32,15 +32,11 @@ export default function HomeStack() {
           headerShown: true,
         }}
       />
-<<<<<<< HEAD
-      <Stack.Screen name="Browse" component={BrowseScreen} />
-=======
 
       <Stack.Screen
         name="Browse"
         component={BrowseScreen}
       />
->>>>>>> df7032d (style: polish UI with recolor screens and navigation)
     </Stack.Navigator>
   );
 }
